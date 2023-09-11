@@ -1,4 +1,4 @@
-package org.basereh;
+package org.basereh.domain;
 
 public class Book {
     public String name;
