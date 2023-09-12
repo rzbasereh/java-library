@@ -10,7 +10,7 @@ import java.util.List;
 public class AuthorService {
     private final AuthorDao dao;
 
-    public List<Author> retrieveAll() {
+    public List<Author> getAllAuthors() {
         return dao.getAll();
     }
 }
