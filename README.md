@@ -19,7 +19,7 @@ Then create tables in this database for domain models by these queries:
 
 ```mysql
 CREATE TABLE `author` (
-    `id` int(11) unsigned NOT NULL,
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `first_name` varchar(20) DEFAULT NULL,
     `last_name` varchar(20) DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -28,7 +28,7 @@ CREATE TABLE `author` (
 
 ```mysql
 CREATE TABLE `publisher` (
-    `id` int(11) unsigned NOT NULL,
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `name` varchar(20) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
@@ -36,7 +36,7 @@ CREATE TABLE `publisher` (
 
 ```mysql
 CREATE TABLE `book` (
-    `id` int(11) unsigned NOT NULL,
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     `publisher_id` int(11) unsigned NOT NULL,
     `author_id` int(11) unsigned NOT NULL,
     PRIMARY KEY (`id`)

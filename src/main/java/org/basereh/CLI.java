@@ -1,8 +1,10 @@
 package org.basereh;
 
 import lombok.RequiredArgsConstructor;
+import org.basereh.domain.Author;
 import org.basereh.service.AuthorService;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class CLI {
     private final Scanner scanner;
     private final AuthorService authorService;
 
-    public void mainLoop() {
+    public void mainLoop() throws SQLException {
         List<String> options = Arrays.asList(
                 "Show all authors",
                 "Show all publishers",
@@ -26,8 +28,14 @@ public class CLI {
             try {
                 switch (selectOption("Please select one of these options:", options)) {
                     case 0 -> {
-                        StringBuilder formatBuilder = new StringBuilder();
                         System.out.println(authorService.getAllAuthors());
+                    }
+                    case 3 -> {
+                        System.out.println("Enter firstname of author:");
+                        String firstName = scanner.next();
+                        System.out.println("Enter lastname of author:");
+                        String lastName = scanner.next();
+                        authorService.createAuthor(Author.builder().firstname(firstName).lastname(lastName).build());
                     }
                 }
             } catch (CLIException e) {
