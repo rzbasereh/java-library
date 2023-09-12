@@ -8,4 +8,9 @@ import lombok.Getter;
 public class Publisher {
     private Integer id;
     public String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
