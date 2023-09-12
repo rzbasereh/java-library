@@ -1,7 +1,9 @@
 package org.basereh;
 
 import lombok.RequiredArgsConstructor;
+import org.basereh.service.AuthorService;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -9,9 +11,13 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class CLI {
     private final Scanner scanner;
+    private final AuthorService authorService;
 
     public void mainLoop() {
         List<String> options = Arrays.asList(
+                "Show all authors",
+                "Show all publishers",
+                "Show all books",
                 "Add new author",
                 "Add new publisher",
                 "Add new book"
@@ -20,6 +26,10 @@ public class CLI {
         do {
             try {
                 switch (selectOption("Please select one of these options:", options)) {
+                    case 0 -> {
+                        StringBuilder formatBuilder = new StringBuilder();
+                        System.out.println(authorService.retrieveAll());
+                    }
                 }
             } catch (CLIException e) {
                 System.out.println(e.getMessage());
