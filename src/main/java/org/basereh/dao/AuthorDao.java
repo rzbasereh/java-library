@@ -39,7 +39,7 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
             if (out == 0){
-                throw new CLIException("Create new Author failed!");
+                throw new CLIException("Create new author failed!");
             }
         }
     }

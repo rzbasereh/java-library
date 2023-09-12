@@ -10,4 +10,9 @@ public class Book {
     public String name;
     public Publisher publisher;
     public  Author author;
+
+    @Override
+    public String toString() {
+        return name + "(pub: " + publisher.toString() + " )(author: " + author.toString() + " )";
+    }
 }

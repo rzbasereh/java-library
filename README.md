@@ -37,6 +37,7 @@ CREATE TABLE `publisher` (
 ```mysql
 CREATE TABLE `book` (
     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `name` varchar(20) DEFAULT NULL,
     `publisher_id` int(11) unsigned NOT NULL,
     `author_id` int(11) unsigned NOT NULL,
     PRIMARY KEY (`id`)

@@ -1,8 +1,10 @@
 package org.basereh;
 
 import org.basereh.dao.AuthorDao;
+import org.basereh.dao.BookDao;
 import org.basereh.dao.PublisherDao;
 import org.basereh.service.AuthorService;
+import org.basereh.service.BookService;
 import org.basereh.service.PublisherService;
 
 import java.sql.Connection;
@@ -17,11 +19,13 @@ public class Main {
                     .getConnection("jdbc:mysql://localhost:3306/library", "root", "root")) {
                 AuthorDao authorDao = new AuthorDao(connection);
                 PublisherDao publisherDao = new PublisherDao(connection);
+                BookDao bookDao = new BookDao(connection);
 
                 AuthorService authorService = new AuthorService(authorDao);
                 PublisherService publisherService = new PublisherService(publisherDao);
+                BookService bookService = new BookService(bookDao);
 
-                CLI cli = new CLI(scanner, authorService, publisherService);
+                CLI cli = new CLI(scanner, authorService, publisherService, bookService);
                 cli.mainLoop();
             }
         }

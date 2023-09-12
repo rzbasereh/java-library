@@ -38,7 +38,7 @@ public class PublisherDao implements ObjectDao<Publisher> {
             preparedStatement.setString(1, publisher.getName());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new CLIException("Create new Publisher failed!");
+                throw new CLIException("Create new publisher failed!");
             }
         }
     }

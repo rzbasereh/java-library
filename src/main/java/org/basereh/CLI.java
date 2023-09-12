@@ -2,8 +2,10 @@ package org.basereh;
 
 import lombok.RequiredArgsConstructor;
 import org.basereh.domain.Author;
+import org.basereh.domain.Book;
 import org.basereh.domain.Publisher;
 import org.basereh.service.AuthorService;
+import org.basereh.service.BookService;
 import org.basereh.service.PublisherService;
 
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ public class CLI {
     private final Scanner scanner;
     private final AuthorService authorService;
     private final PublisherService publisherService;
+    private final BookService bookService;
 
     public void mainLoop() throws SQLException {
         List<String> options = Arrays.asList(
@@ -36,23 +39,39 @@ public class CLI {
                     case 1 -> {
                         System.out.println(publisherService.getAllPublishers());
                     }
+                    case 2 -> {
+                        System.out.println(bookService.getAllBooks());
+                    }
                     case 3 -> {
-                        System.out.println("Enter firstname of author:");
-                        String firstName = scanner.next();
-                        System.out.println("Enter lastname of author:");
-                        String lastName = scanner.next();
-
+                        String firstName = getText("Enter firstname of author:");
+                        String lastName = getText("Enter lastname of author:");
                         authorService.createAuthor(Author.builder().firstname(firstName).lastname(lastName).build());
-
                         System.out.println("Author added successfully!");
                     }
                     case 4 -> {
-                        System.out.println("Enter name of publisher:");
-                        String name = scanner.next();
-
+                        String name = getText("Enter name of publisher:");
                         publisherService.createPublisher(Publisher.builder().name(name).build());
-
                         System.out.println("Publisher added successfully!");
+                    }
+                    case 5 -> {
+                        String name = getText("Enter name of book:");
+
+                        List<Publisher> publishers = publisherService.getAllPublishers();
+                        Publisher publisher = publishers.get(selectOption(
+                                "Select book publisher:",
+                                publishers.stream().map(Publisher::toString).toList())
+                        );
+
+                        List<Author> authors = authorService.getAllAuthors();
+                        Author author = authors.get(selectOption(
+                                "Select book author:",
+                                authors.stream().map(Author::toString).toList())
+                        );
+
+                        bookService.createBook(
+                                Book.builder().name(name).publisher(publisher).author(author).build()
+                        );
+                        System.out.println("Book added successfully!");
                     }
                 }
             } catch (CLIException e) {
@@ -72,6 +91,11 @@ public class CLI {
             throw new CLIException("Invalid option selected!");
         }
         return selectedOptionIndex;
+    }
+
+    private String getText(String title) {
+        System.out.println(title);
+        return scanner.next();
     }
 
     private boolean isContinue() {
