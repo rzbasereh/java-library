@@ -7,27 +7,27 @@ You need to first run `docker-compose` that place in root of repository to set u
 Create `java_db` by this query:
 
 ```mysql
-CREATE DATABASE java_library
+CREATE DATABASE library
 ```
 
 And use this database by:
 ```mysql
-USE java_library
+USE library
 ```
 
 Then create tables in this database for domain models by these queries:
 
 ```mysql
-CREATE TABLE `Author` (
+CREATE TABLE `author` (
     `id` int(11) unsigned NOT NULL,
-    `firstname` varchar(20) DEFAULT NULL,
-    `lastname` varchar(20) DEFAULT NULL,
+    `first_name` varchar(20) DEFAULT NULL,
+    `last_name` varchar(20) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
 ```
 
 ```mysql
-CREATE TABLE `Publisher` (
+CREATE TABLE `publisher` (
     `id` int(11) unsigned NOT NULL,
     `name` varchar(20) DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -35,10 +35,10 @@ CREATE TABLE `Publisher` (
 ```
 
 ```mysql
-CREATE TABLE `Book` (
+CREATE TABLE `book` (
     `id` int(11) unsigned NOT NULL,
-    `publisherId` int(11) unsigned NOT NULL,
-    `authorId` int(11) unsigned NOT NULL,
+    `publisher_id` int(11) unsigned NOT NULL,
+    `author_id` int(11) unsigned NOT NULL,
     PRIMARY KEY (`id`)
 );
 ```
