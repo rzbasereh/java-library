@@ -23,4 +23,8 @@ public class PublisherService {
     public void createPublisher(Publisher publisher) throws SQLException, CLIException {
         dao.save(publisher);
     }
+
+    public void deletePublisher(Integer id) throws SQLException {
+        dao.delete(id);
+    }
 }

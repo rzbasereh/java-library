@@ -11,4 +11,6 @@ public interface ObjectDao<T> {
     public T get(Integer id) throws SQLException;
 
     public void save(T obj) throws SQLException;
+
+    public void delete(Integer id) throws SQLException;
 }

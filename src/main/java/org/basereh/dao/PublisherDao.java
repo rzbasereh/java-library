@@ -55,4 +55,15 @@ public class PublisherDao implements ObjectDao<Publisher> {
             }
         }
     }
+
+    @Override
+    public void delete(Integer id) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM publisher WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
+            }
+        }
+    }
 }

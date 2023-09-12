@@ -23,4 +23,8 @@ public class AuthorService {
     public void createAuthor(Author author) throws SQLException, CLIException {
         dao.save(author);
     }
+
+    public void deleteAuthor(Integer id) throws SQLException {
+        dao.delete(id);
+    }
 }

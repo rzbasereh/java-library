@@ -58,4 +58,15 @@ public class AuthorDao implements ObjectDao<Author> {
             }
         }
     }
+
+    @Override
+    public void delete(Integer id) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM author WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
+            }
+        }
+    }
 }

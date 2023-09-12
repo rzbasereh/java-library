@@ -30,7 +30,10 @@ public class CLI {
                 "Add new book",
                 "Get Single author",
                 "Get Single publishers",
-                "Get Single book"
+                "Get Single book",
+                "Delete an author",
+                "Delete a publishers",
+                "Delete a book"
         );
 
         do {
@@ -87,6 +90,22 @@ public class CLI {
                     case 8 -> {
                         Integer id = getId("Enter book id:");
                         System.out.println(bookService.getBook(id));
+                    }
+                    case 9 -> {
+                        Integer id = getId("Enter author id:");
+                        authorService.deleteAuthor(id);
+                        System.out.println("Author with id " + id + " deleted successfully!");
+                    }
+                    case 10 -> {
+                        Integer id = getId("Enter publisher id:");
+                        publisherService.deletePublisher(id);
+                        System.out.println("Publisher with id " + id + " deleted successfully!");
+
+                    }
+                    case 11 -> {
+                        Integer id = getId("Enter book id:");
+                        bookService.deleteBook(id);
+                        System.out.println("Book with id " + id + " deleted successfully!");
                     }
                 }
             } catch (CLIException e) {

@@ -25,4 +25,8 @@ public class BookService {
     public void createBook(Book author) throws SQLException, CLIException {
         dao.save(author);
     }
+
+    public void deleteBook(Integer id) throws SQLException {
+        dao.delete(id);
+    }
 }

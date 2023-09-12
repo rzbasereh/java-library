@@ -64,4 +64,15 @@ public class BookDao implements ObjectDao<Book> {
             }
         }
     }
+
+    @Override
+    public void delete(Integer id) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM book WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
+            }
+        }
+    }
 }
