@@ -27,7 +27,7 @@ public class CLI {
                 switch (selectOption("Please select one of these options:", options)) {
                     case 0 -> {
                         StringBuilder formatBuilder = new StringBuilder();
-                        System.out.println(authorService.retrieveAll());
+                        System.out.println(authorService.getAllAuthors());
                     }
                 }
             } catch (CLIException e) {

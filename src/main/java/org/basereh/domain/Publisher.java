@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Publisher {
+    private Integer id;
     public String name;
 }

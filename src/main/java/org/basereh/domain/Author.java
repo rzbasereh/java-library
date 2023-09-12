@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Author {
+    private Integer id;
     private String firstname;
     private String lastname;
 
