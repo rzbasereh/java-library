@@ -36,10 +36,12 @@ CREATE TABLE `publisher` (
 
 ```mysql
 CREATE TABLE `book` (
-    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-    `name` varchar(20) DEFAULT NULL,
-    `publisher_id` int(11) unsigned NOT NULL,
-    `author_id` int(11) unsigned NOT NULL,
-    PRIMARY KEY (`id`)
+                        `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                        `name` varchar(20) DEFAULT NULL,
+                        `publisher_id` int(11) unsigned NOT NULL,
+                        `author_id` int(11) unsigned NOT NULL,
+                        PRIMARY KEY (`id`),
+                        FOREIGN KEY (`publisher_id`) REFERENCES `publisher`(`id`),
+                        FOREIGN KEY (`author_id`) REFERENCES `author`(`id`)
 );
 ```
