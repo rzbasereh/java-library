@@ -54,7 +54,7 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException("Create new author failed!");
+                throw new SQLException();
             }
         }
     }

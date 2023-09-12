@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 @RequiredArgsConstructor
 public class CLI {
@@ -21,7 +20,7 @@ public class CLI {
     private final PublisherService publisherService;
     private final BookService bookService;
 
-    public void mainLoop() throws SQLException {
+    public void mainLoop() {
         List<String> options = Arrays.asList(
                 "Show all authors",
                 "Show all publishers",
@@ -129,13 +128,13 @@ public class CLI {
                         System.out.println("Book updated successfully!");
                     }
                 }
-            } catch (CLIException e) {
+            } catch (LibraryException e) {
                 System.out.println(e.getMessage());
-            }
+            } catch (Exception ignored) {}
         } while (isContinue());
     }
 
-    private Publisher selectPublisher() throws SQLException, CLIException {
+    private Publisher selectPublisher() throws SQLException, LibraryException {
         List<Publisher> publishers = publisherService.getAllPublishers();
         return publishers.get(selectOption(
                 "Select a publisher:",
@@ -143,7 +142,7 @@ public class CLI {
         );
     }
 
-    private Author selectAuthor() throws SQLException, CLIException {
+    private Author selectAuthor() throws SQLException, LibraryException {
         List<Author> authors = authorService.getAllAuthors();
         return authors.get(selectOption(
                 "Select an author:",
@@ -151,7 +150,7 @@ public class CLI {
         );
     }
 
-    private Book selectBook() throws SQLException, CLIException {
+    private Book selectBook() throws SQLException, LibraryException {
         List<Book> books = bookService.getAllBooks();
         return books.get(selectOption(
                 "Select a book:",
@@ -159,7 +158,7 @@ public class CLI {
         );
     }
 
-    private int selectOption(String title, List<String> options) throws CLIException {
+    private int selectOption(String title, List<String> options) throws LibraryException {
         System.out.println("\n" + title);
         for (int i = 0; i < options.size(); i++) {
             System.out.println("\t[" + (i + 1) + "] " + options.get(i));
@@ -167,7 +166,7 @@ public class CLI {
 
         int selectedOptionIndex = scanner.nextInt() - 1;
         if (selectedOptionIndex < 0 || selectedOptionIndex >= options.size()) {
-            throw new CLIException("Invalid option selected!");
+            throw new LibraryException("Invalid option selected!");
         }
         return selectedOptionIndex;
     }

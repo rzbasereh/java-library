@@ -60,7 +60,7 @@ public class BookDao implements ObjectDao<Book> {
             preparedStatement.setInt(3, book.getAuthor().getId());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException("Create new book failed!");
+                throw new SQLException();
             }
         }
     }

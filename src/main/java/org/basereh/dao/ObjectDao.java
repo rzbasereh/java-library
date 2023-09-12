@@ -1,7 +1,5 @@
 package org.basereh.dao;
 
-import org.basereh.CLIException;
-
 import java.sql.SQLException;
 import java.util.List;
 

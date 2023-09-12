@@ -1,7 +1,7 @@
 package org.basereh.service;
 
 import lombok.RequiredArgsConstructor;
-import org.basereh.CLIException;
+import org.basereh.LibraryException;
 import org.basereh.dao.PublisherDao;
 import org.basereh.domain.Publisher;
 
@@ -20,15 +20,27 @@ public class PublisherService {
         return dao.get(id);
     }
 
-    public void createPublisher(Publisher publisher) throws SQLException, CLIException {
-        dao.save(publisher);
+    public void createPublisher(Publisher publisher) throws LibraryException {
+        try {
+            dao.save(publisher);
+        } catch (SQLException e) {
+            throw new LibraryException("Create new publisher failed!");
+        }
     }
 
-    public void updatePublisher(Integer id, Publisher updatedPublisher) throws SQLException {
-        dao.update(id, updatedPublisher);
+    public void updatePublisher(Integer id, Publisher updatedPublisher) throws LibraryException {
+        try {
+            dao.update(id, updatedPublisher);
+        } catch (SQLException e) {
+            throw new LibraryException("Update publisher failed!");
+        }
     }
 
-    public void deletePublisher(Integer id) throws SQLException {
-        dao.delete(id);
+    public void deletePublisher(Integer id) throws LibraryException {
+        try {
+            dao.delete(id);
+        } catch (SQLException e) {
+            throw new LibraryException("Delete publisher failed!");
+        }
     }
 }
