@@ -16,6 +16,9 @@ public class PublisherService {
         return dao.getAll();
     }
 
+    public Publisher getPublisher(Integer id) throws SQLException {
+        return dao.get(id);
+    }
 
     public void createPublisher(Publisher publisher) throws SQLException, CLIException {
         dao.save(publisher);

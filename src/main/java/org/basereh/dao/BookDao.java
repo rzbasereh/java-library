@@ -2,6 +2,7 @@ package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.basereh.domain.Book;
+import org.basereh.domain.Publisher;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -34,7 +35,19 @@ public class BookDao implements ObjectDao<Book> {
 
     @Override
     public Book get(Integer id) throws SQLException {
-        return null;
+        Book book = null;
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM book WHERE id = " + id);
+            if (resultSet.next()) {
+                book = Book.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .author(authorDao.get(resultSet.getInt("author_id")))
+                        .publisher(publisherDao.get(resultSet.getInt("publisher_id")))
+                        .build();
+            }
+        }
+        return book;
     }
 
     @Override

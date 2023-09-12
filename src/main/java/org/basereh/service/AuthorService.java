@@ -16,6 +16,9 @@ public class AuthorService {
         return dao.getAll();
     }
 
+    public Author getAuthor(Integer id) throws SQLException {
+        return dao.get(id);
+    }
 
     public void createAuthor(Author author) throws SQLException, CLIException {
         dao.save(author);

@@ -27,7 +27,10 @@ public class CLI {
                 "Show all books",
                 "Add new author",
                 "Add new publisher",
-                "Add new book"
+                "Add new book",
+                "Get Single author",
+                "Get Single publishers",
+                "Get Single book"
         );
 
         do {
@@ -73,6 +76,18 @@ public class CLI {
                         );
                         System.out.println("Book added successfully!");
                     }
+                    case 6 -> {
+                        Integer id = getId("Enter author id:");
+                        System.out.println(authorService.getAuthor(id));
+                    }
+                    case 7 -> {
+                        Integer id = getId("Enter publisher id:");
+                        System.out.println(publisherService.getPublisher(id));
+                    }
+                    case 8 -> {
+                        Integer id = getId("Enter book id:");
+                        System.out.println(bookService.getBook(id));
+                    }
                 }
             } catch (CLIException e) {
                 System.out.println(e.getMessage());
@@ -96,6 +111,11 @@ public class CLI {
     private String getText(String title) {
         System.out.println(title);
         return scanner.next();
+    }
+
+    private Integer getId(String title) {
+        System.out.println(title);
+        return scanner.nextInt();
     }
 
     private boolean isContinue() {
