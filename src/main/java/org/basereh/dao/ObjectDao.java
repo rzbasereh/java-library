@@ -8,5 +8,7 @@ import java.util.List;
 public interface ObjectDao<T> {
     public List<T> getAll() throws SQLException;
 
-    public void save(T obj) throws SQLException, CLIException;
+    public T get(Integer id) throws SQLException;
+
+    public void save(T obj) throws SQLException;
 }

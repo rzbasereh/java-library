@@ -1,9 +1,7 @@
 package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.basereh.CLIException;
 import org.basereh.domain.Book;
-import org.basereh.domain.Publisher;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,26 +10,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookDao implements ObjectDao<Book> {
     private final Connection connection;
+    private final AuthorDao authorDao;
+    private final PublisherDao publisherDao;
 
     @Override
     public List<Book> getAll() throws SQLException {
         List<Book> books = new ArrayList<>();
-//        try (Statement statement = connection.createStatement()) {
-//            ResultSet resultSet = statement.executeQuery("SELECT * FROM book");
-//            while (resultSet.next()) {
-//                books.add(
-//                        Book.builder()
-//                                .id(resultSet.getInt("id"))
-//                                .name(resultSet.getString("name"))
-//                                .build()
-//                );
-//            }
-//        }
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM book");
+            while (resultSet.next()) {
+                books.add(
+                        Book.builder()
+                                .id(resultSet.getInt("id"))
+                                .name(resultSet.getString("name"))
+                                .author(authorDao.get(resultSet.getInt("author_id")))
+                                .publisher(publisherDao.get(resultSet.getInt("publisher_id")))
+                                .build()
+                );
+            }
+        }
         return books;
     }
 
     @Override
-    public void save(Book book) throws SQLException, CLIException {
+    public Book get(Integer id) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public void save(Book book) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "insert into book (name, publisher_id, author_id) values (?,?,?)"
         )) {
@@ -40,7 +47,7 @@ public class BookDao implements ObjectDao<Book> {
             preparedStatement.setInt(3, book.getAuthor().getId());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new CLIException("Create new book failed!");
+                throw new SQLException("Create new book failed!");
             }
         }
     }

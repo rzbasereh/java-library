@@ -1,8 +1,6 @@
 package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.basereh.CLIException;
-import org.basereh.domain.Author;
 import org.basereh.domain.Publisher;
 
 import java.sql.*;
@@ -31,14 +29,29 @@ public class PublisherDao implements ObjectDao<Publisher> {
     }
 
     @Override
-    public void save(Publisher publisher) throws SQLException, CLIException {
+    public Publisher get(Integer id) throws SQLException {
+        Publisher publisher = null;
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM publisher WHERE id = " + id);
+            if (resultSet.next()) {
+                publisher = Publisher.builder()
+                        .id(resultSet.getInt("id"))
+                        .name(resultSet.getString("name"))
+                        .build();
+            }
+        }
+        return publisher;
+    }
+
+    @Override
+    public void save(Publisher publisher) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "insert into publisher (name) values (?)"
         )) {
             preparedStatement.setString(1, publisher.getName());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new CLIException("Create new publisher failed!");
+                throw new SQLException("Create new publisher failed!");
             }
         }
     }
