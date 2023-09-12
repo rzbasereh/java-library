@@ -2,7 +2,6 @@ package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.basereh.domain.Book;
-import org.basereh.domain.Publisher;
 
 import java.sql.*;
 import java.util.ArrayList;
