@@ -24,6 +24,10 @@ public class AuthorService {
         dao.save(author);
     }
 
+    public void updateAuthor(Integer id, Author updatedAuthor) throws SQLException {
+        dao.update(id, updatedAuthor);
+    }
+
     public void deleteAuthor(Integer id) throws SQLException {
         dao.delete(id);
     }

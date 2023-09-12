@@ -2,9 +2,7 @@ package org.basereh.service;
 
 import lombok.RequiredArgsConstructor;
 import org.basereh.CLIException;
-import org.basereh.dao.AuthorDao;
 import org.basereh.dao.BookDao;
-import org.basereh.domain.Author;
 import org.basereh.domain.Book;
 
 import java.sql.SQLException;
@@ -24,6 +22,10 @@ public class BookService {
 
     public void createBook(Book author) throws SQLException, CLIException {
         dao.save(author);
+    }
+
+    public void updateBook(Integer id, Book updatedBook) throws SQLException {
+        dao.update(id, updatedBook);
     }
 
     public void deleteBook(Integer id) throws SQLException {

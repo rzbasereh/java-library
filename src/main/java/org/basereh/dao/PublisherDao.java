@@ -57,6 +57,18 @@ public class PublisherDao implements ObjectDao<Publisher> {
     }
 
     @Override
+    public void update(Integer id, Publisher updatedPublisher) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE book SET name=? WHERE id=?")) {
+            preparedStatement.setString(1, updatedPublisher.getName());
+            preparedStatement.setInt(2, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
+            }
+        }
+    }
+
+    @Override
     public void delete(Integer id) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM publisher WHERE id=?")) {
             preparedStatement.setInt(1, id);

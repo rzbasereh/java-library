@@ -48,13 +48,28 @@ public class AuthorDao implements ObjectDao<Author> {
     @Override
     public void save(Author author) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "insert into author (first_name, last_name) values (?,?)"
+                "INSERT INTO author (first_name, last_name) VALUES (?,?)"
         )) {
             preparedStatement.setString(1, author.getFirstname());
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
                 throw new SQLException("Create new author failed!");
+            }
+        }
+    }
+
+    @Override
+    public void update(Integer id, Author updatedAuthor) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE author SET first_name=?, last_name=? WHERE id=?"
+        )) {
+            preparedStatement.setString(1, updatedAuthor.getFirstname());
+            preparedStatement.setString(2, updatedAuthor.getLastname());
+            preparedStatement.setInt(3, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
             }
         }
     }

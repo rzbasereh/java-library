@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 @RequiredArgsConstructor
 public class CLI {
@@ -33,7 +34,10 @@ public class CLI {
                 "Get Single book",
                 "Delete an author",
                 "Delete a publishers",
-                "Delete a book"
+                "Delete a book",
+                "Update an author",
+                "Update a publishers",
+                "Update a book"
         );
 
         do {
@@ -61,18 +65,8 @@ public class CLI {
                     }
                     case 5 -> {
                         String name = getText("Enter name of book:");
-
-                        List<Publisher> publishers = publisherService.getAllPublishers();
-                        Publisher publisher = publishers.get(selectOption(
-                                "Select book publisher:",
-                                publishers.stream().map(Publisher::toString).toList())
-                        );
-
-                        List<Author> authors = authorService.getAllAuthors();
-                        Author author = authors.get(selectOption(
-                                "Select book author:",
-                                authors.stream().map(Author::toString).toList())
-                        );
+                        Publisher publisher = selectPublisher();
+                        Author author = selectAuthor();
 
                         bookService.createBook(
                                 Book.builder().name(name).publisher(publisher).author(author).build()
@@ -107,11 +101,62 @@ public class CLI {
                         bookService.deleteBook(id);
                         System.out.println("Book with id " + id + " deleted successfully!");
                     }
+                    case 12 -> {
+                        Author author = selectAuthor();
+                        String firstName = getText("Enter new firstname:");
+                        String lastName = getText("Enter new lastname:");
+                        authorService.updateAuthor(
+                                author.getId(),
+                                Author.builder().firstname(firstName).lastname(lastName).build()
+                        );
+                        System.out.println("Author updated successfully!");
+                    }
+                    case 13 -> {
+                        Publisher publisher = selectPublisher();
+                        String name = getText("Enter new name:");
+                        publisherService.updatePublisher(publisher.getId(), Publisher.builder().name(name).build());
+                        System.out.println("Publisher updated successfully!");
+                    }
+                    case 14 -> {
+                        Book book = selectBook();
+                        String name = getText("Enter name of book:");
+                        Publisher publisher = selectPublisher();
+                        Author author = selectAuthor();
+                        bookService.updateBook(
+                                book.getId(),
+                                Book.builder().name(name).publisher(publisher).author(author).build()
+                        );
+                        System.out.println("Book updated successfully!");
+                    }
                 }
             } catch (CLIException e) {
                 System.out.println(e.getMessage());
             }
         } while (isContinue());
+    }
+
+    private Publisher selectPublisher() throws SQLException, CLIException {
+        List<Publisher> publishers = publisherService.getAllPublishers();
+        return publishers.get(selectOption(
+                "Select a publisher:",
+                publishers.stream().map(Publisher::toString).toList())
+        );
+    }
+
+    private Author selectAuthor() throws SQLException, CLIException {
+        List<Author> authors = authorService.getAllAuthors();
+        return authors.get(selectOption(
+                "Select an author:",
+                authors.stream().map(Author::toString).toList())
+        );
+    }
+
+    private Book selectBook() throws SQLException, CLIException {
+        List<Book> books = bookService.getAllBooks();
+        return books.get(selectOption(
+                "Select a book:",
+                books.stream().map(Book::toString).toList())
+        );
     }
 
     private int selectOption(String title, List<String> options) throws CLIException {

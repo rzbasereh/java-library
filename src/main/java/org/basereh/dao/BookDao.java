@@ -66,6 +66,22 @@ public class BookDao implements ObjectDao<Book> {
     }
 
     @Override
+    public void update(Integer id, Book updatedBook) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE book SET name=?, publisher_id=?,author_id=? WHERE id=?"
+        )) {
+            preparedStatement.setString(1, updatedBook.getName());
+            preparedStatement.setInt(2, updatedBook.getPublisher().getId());
+            preparedStatement.setInt(3, updatedBook.getAuthor().getId());
+            preparedStatement.setInt(4, id);
+            int out = preparedStatement.executeUpdate();
+            if (out == 0) {
+                throw new SQLException();
+            }
+        }
+    }
+
+    @Override
     public void delete(Integer id) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM book WHERE id=?")) {
             preparedStatement.setInt(1, id);

@@ -24,6 +24,10 @@ public class PublisherService {
         dao.save(publisher);
     }
 
+    public void updatePublisher(Integer id, Publisher updatedPublisher) throws SQLException {
+        dao.update(id, updatedPublisher);
+    }
+
     public void deletePublisher(Integer id) throws SQLException {
         dao.delete(id);
     }
