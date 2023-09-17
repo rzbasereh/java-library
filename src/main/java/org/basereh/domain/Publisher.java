@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class Publisher {
     private Integer id;
-    public String name;
+    private String name;
 
     @Override
     public String toString() {

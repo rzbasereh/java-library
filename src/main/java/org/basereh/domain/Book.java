@@ -7,9 +7,9 @@ import lombok.Getter;
 @Builder
 public class Book {
     private Integer id;
-    public String name;     // todo comment private
-    public Publisher publisher;
-    public  Author author;
+    private String name;
+    private Publisher publisher;
+    private  Author author;
 
     @Override
     public String toString() {
