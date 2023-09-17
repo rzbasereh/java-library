@@ -28,9 +28,9 @@ public class BookService {
         }
     }
 
-    public void createBook(Book book) {
+    public Book createBook(Book book) {
         try {
-            dao.save(book);
+            return dao.save(book);
         } catch (SQLException e) {
             throw new LibraryException("Create new book failed!");
         }

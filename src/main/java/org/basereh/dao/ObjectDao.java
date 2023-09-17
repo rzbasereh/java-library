@@ -8,7 +8,7 @@ public interface ObjectDao<T> {
 
     T get(Integer id) throws SQLException;
 
-    void save(T obj) throws SQLException;
+    T save(T obj) throws SQLException;
 
     void update(Integer id, T updatedObj) throws SQLException;
 

@@ -6,5 +6,5 @@ You need to first run `docker-compose` that place in root of repository to set u
 import `library.sql` file via this command:
 
 ```bash
-~~~~mysql ./library.sql     // todo comment ~~~~~?
+mysql ./library.sql
 ```

@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-// todo comment too code warning nadashte bashad
 @RequiredArgsConstructor
 public class AuthorDao implements ObjectDao<Author> {
     private final Connection connection;
@@ -48,15 +47,28 @@ public class AuthorDao implements ObjectDao<Author> {
     }
 
     @Override
-    public void save(Author author) throws SQLException {
+    public Author save(Author author) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO author (first_name, last_name) VALUES (?,?)"
+                "INSERT INTO author (first_name, last_name) VALUES (?,?)",
+                Statement.RETURN_GENERATED_KEYS
         )) {
             preparedStatement.setString(1, author.getFirstname());
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
-            if (out == 0) {     // todo comment chera?
-                throw new SQLException();
+            if (out == 0) {
+                throw new SQLException("Creating author failed, no rows affected.");
+            }
+
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return Author.builder()
+                            .id(resultSet.getInt(1))
+                            .firstname(author.getFirstname())
+                            .lastname(author.getLastname())
+                            .build();
+                } else {
+                    throw new SQLException("Creating author failed, no ID obtained.");
+                }
             }
         }
     }

@@ -28,9 +28,9 @@ public class PublisherService {
         }
     }
 
-    public void createPublisher(Publisher publisher) {
+    public Publisher createPublisher(Publisher publisher) {
         try {
-            dao.save(publisher);
+            return dao.save(publisher);
         } catch (SQLException e) {
             throw new LibraryException("Create new publisher failed!");
         }

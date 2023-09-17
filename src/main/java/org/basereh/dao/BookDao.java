@@ -51,7 +51,7 @@ public class BookDao implements ObjectDao<Book> {
     }
 
     @Override
-    public void save(Book book) throws SQLException {
+    public Book save(Book book) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "insert into book (name, publisher_id, author_id) values (?,?,?)"
         )) {
@@ -60,7 +60,20 @@ public class BookDao implements ObjectDao<Book> {
             preparedStatement.setInt(3, book.getAuthor().getId());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException();
+                throw new SQLException("Creating book failed, no rows affected.");
+            }
+
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return Book.builder()
+                            .id(resultSet.getInt(1))
+                            .name(book.getName())
+                            .author(book.getAuthor())
+                            .publisher(book.getPublisher())
+                            .build();
+                } else {
+                    throw new SQLException("Creating book failed, no ID obtained.");
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
+import org.basereh.domain.Author;
 import org.basereh.domain.Publisher;
 
 import java.sql.*;
@@ -45,14 +46,25 @@ public class PublisherDao implements ObjectDao<Publisher> {
     }
 
     @Override
-    public void save(Publisher publisher) throws SQLException {
+    public Publisher save(Publisher publisher) throws SQLException {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "insert into publisher (name) values (?)"
         )) {
             preparedStatement.setString(1, publisher.getName());
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException();
+                throw new SQLException("Creating publisher failed, no rows affected.");
+            }
+
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if (resultSet.next()) {
+                    return Publisher.builder()
+                            .id(resultSet.getInt(1))
+                            .name(publisher.getName())
+                            .build();
+                } else {
+                    throw new SQLException("Creating publisher failed, no ID obtained.");
+                }
             }
         }
     }

@@ -28,10 +28,11 @@ public class AuthorService {
         }
     }
 
-    public void createAuthor(Author author) {       // todo comment return object or id
+    public Author createAuthor(Author author) {
         try {
-            dao.save(author);
+            return dao.save(author);
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new LibraryException("Create new author failed!");
         }
     }
