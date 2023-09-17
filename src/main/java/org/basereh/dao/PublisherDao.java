@@ -17,12 +17,7 @@ public class PublisherDao implements ObjectDao<Publisher> {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM publisher");
             while (resultSet.next()) {
-                publishers.add(
-                        Publisher.builder()
-                                .id(resultSet.getInt("id"))
-                                .name(resultSet.getString("name"))
-                                .build()
-                );
+                publishers.add(createPublisherFromResultSet(resultSet));
             }
         }
         return publishers;
@@ -35,10 +30,7 @@ public class PublisherDao implements ObjectDao<Publisher> {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                publisher = Publisher.builder()
-                        .id(resultSet.getInt("id"))
-                        .name(resultSet.getString("name"))
-                        .build();
+                publisher = createPublisherFromResultSet(resultSet);
             }
         }
         return publisher;
@@ -93,5 +85,12 @@ public class PublisherDao implements ObjectDao<Publisher> {
                 throw new SQLException("Deleting publisher failed, no rows affected.");
             }
         }
+    }
+
+    private Publisher createPublisherFromResultSet(ResultSet resultSet) throws SQLException {
+        return Publisher.builder()
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .build();
     }
 }

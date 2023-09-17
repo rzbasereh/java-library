@@ -17,13 +17,7 @@ public class AuthorDao implements ObjectDao<Author> {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM author");
             while (resultSet.next()) {
-                authors.add(
-                        Author.builder()
-                                .id(resultSet.getInt("id"))
-                                .firstname(resultSet.getString("first_name"))
-                                .lastname(resultSet.getString("last_name"))
-                                .build()
-                );
+                authors.add(createAuthorFromResultSet(resultSet));
             }
         }
         return authors;
@@ -36,11 +30,7 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                author = Author.builder()
-                        .id(resultSet.getInt("id"))
-                        .firstname(resultSet.getString("first_name"))
-                        .lastname(resultSet.getString("last_name"))
-                        .build();
+                author = createAuthorFromResultSet(resultSet);
             }
         }
         return author;
@@ -102,5 +92,13 @@ public class AuthorDao implements ObjectDao<Author> {
                 throw new SQLException("Deleting author failed, no rows affected.");
             }
         }
+    }
+
+    private Author createAuthorFromResultSet(ResultSet resultSet) throws SQLException {
+        return Author.builder()
+                .id(resultSet.getInt("id"))
+                .firstname(resultSet.getString("first_name"))
+                .lastname(resultSet.getString("last_name"))
+                .build();
     }
 }

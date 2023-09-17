@@ -19,14 +19,7 @@ public class BookDao implements ObjectDao<Book> {
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM book");
             while (resultSet.next()) {
-                books.add(
-                        Book.builder()
-                                .id(resultSet.getInt("id"))
-                                .name(resultSet.getString("name"))
-                                .author(authorDao.get(resultSet.getInt("author_id")))
-                                .publisher(publisherDao.get(resultSet.getInt("publisher_id")))
-                                .build()
-                );
+                books.add(createBookFromResultSet(resultSet));
             }
         }
         return books;
@@ -39,12 +32,7 @@ public class BookDao implements ObjectDao<Book> {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                book = Book.builder()
-                        .id(resultSet.getInt("id"))
-                        .name(resultSet.getString("name"))
-                        .author(authorDao.get(resultSet.getInt("author_id")))
-                        .publisher(publisherDao.get(resultSet.getInt("publisher_id")))          // todo comment code tekrari
-                        .build();
+                book = createBookFromResultSet(resultSet);
             }
         }
         return book;
@@ -107,5 +95,14 @@ public class BookDao implements ObjectDao<Book> {
                 throw new SQLException("Deleting book failed, no rows affected.");
             }
         }
+    }
+
+    private Book createBookFromResultSet(ResultSet resultSet) throws SQLException {
+        return Book.builder()
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .author(authorDao.get(resultSet.getInt("author_id")))
+                .publisher(publisherDao.get(resultSet.getInt("publisher_id")))
+                .build();
     }
 }
