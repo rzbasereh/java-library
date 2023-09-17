@@ -21,7 +21,7 @@ public class CLI {
     private final BookService bookService;
 
     public void mainLoop() {
-        List<String> options = Arrays.asList(
+        List<String> options = Arrays.asList(       // todo comment private static final
                 "Show all authors",
                 "Show all publishers",
                 "Show all books",
@@ -130,7 +130,7 @@ public class CLI {
                 }
             } catch (LibraryException e) {
                 System.out.println(e.getMessage());
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {}      // todo comment chera?
         } while (isContinue());
     }
 
@@ -138,7 +138,7 @@ public class CLI {
         List<Publisher> publishers = publisherService.getAllPublishers();
         return publishers.get(selectOption(
                 "Select a publisher:",
-                publishers.stream().map(Publisher::toString).toList())
+                publishers.stream().map(Publisher::toString).toList())      // todo comment id lozooman indexe mage?
         );
     }
 
@@ -182,7 +182,7 @@ public class CLI {
     }
 
     private boolean isContinue() {
-        System.out.print("\nAre you want to continue (Y/n): ");
+        System.out.print("\nAre you want to continue (Y/n): ");     // todo comment Do
         String res = scanner.next();
         return !res.equals("n");
     }

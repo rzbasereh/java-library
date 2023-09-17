@@ -43,7 +43,7 @@ public class BookDao implements ObjectDao<Book> {
                         .id(resultSet.getInt("id"))
                         .name(resultSet.getString("name"))
                         .author(authorDao.get(resultSet.getInt("author_id")))
-                        .publisher(publisherDao.get(resultSet.getInt("publisher_id")))
+                        .publisher(publisherDao.get(resultSet.getInt("publisher_id")))          // todo comment code tekrari
                         .build();
             }
         }

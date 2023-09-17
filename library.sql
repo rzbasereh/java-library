@@ -21,6 +21,6 @@ CREATE TABLE `book` (
     `author_id` int(11) unsigned NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`publisher_id`) REFERENCES `publisher`(`id`) ON DELETE SET NULL,
-    FOREIGN KEY (`author_id`) REFERENCES `author`(`id`) ON DELETE SET NULL
+    FOREIGN KEY (`author_id`) REFERENCES `author`(`id`) ON DELETE SET NULL      // todo comment chera set null?
 );
 
