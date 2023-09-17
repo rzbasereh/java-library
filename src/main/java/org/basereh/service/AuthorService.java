@@ -12,12 +12,20 @@ import java.util.List;
 public class AuthorService {
     private final AuthorDao dao;
 
-    public List<Author> getAllAuthors() throws SQLException {
-        return dao.getAll();
+    public List<Author> getAllAuthors() {
+        try {
+            return dao.getAll();
+        } catch (SQLException e) {
+            throw new LibraryException("get all authors failed!");
+        }
     }
 
-    public Author getAuthor(Integer id) throws SQLException {
-        return dao.get(id);
+    public Author getAuthor(Integer id) {
+        try {
+            return dao.get(id);
+        } catch (SQLException e) {
+            throw new LibraryException("get author failed!");
+        }
     }
 
     public void createAuthor(Author author) {       // todo comment return object or id

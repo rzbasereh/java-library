@@ -12,12 +12,20 @@ import java.util.List;
 public class BookService {
     private final BookDao dao;
 
-    public List<Book> getAllBooks() throws SQLException {
-        return dao.getAll();
+    public List<Book> getAllBooks() {
+        try {
+            return dao.getAll();
+        } catch (SQLException e) {
+            throw new LibraryException("get all books failed!");
+        }
     }
 
-    public Book getBook(Integer id) throws SQLException {
-        return dao.get(id);
+    public Book getBook(Integer id) {
+        try {
+            return dao.get(id);
+        } catch (SQLException e) {
+            throw new LibraryException("get book failed!");
+        }
     }
 
     public void createBook(Book book) {

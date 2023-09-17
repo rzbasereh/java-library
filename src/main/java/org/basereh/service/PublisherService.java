@@ -12,15 +12,23 @@ import java.util.List;
 public class PublisherService {
     private final PublisherDao dao;
 
-    public List<Publisher> getAllPublishers() throws SQLException {     // todo comment SQLException
-        return dao.getAll();
+    public List<Publisher> getAllPublishers() {
+        try {
+            return dao.getAll();
+        } catch (SQLException e) {
+            throw new LibraryException("get all publishers failed!");
+        }
     }
 
-    public Publisher getPublisher(Integer id) throws SQLException {
-        return dao.get(id);
+    public Publisher getPublisher(Integer id) {
+        try {
+            return dao.get(id);
+        } catch (SQLException e) {
+            throw new LibraryException("get publisher failed!");
+        }
     }
 
-    public void createPublisher(Publisher publisher){
+    public void createPublisher(Publisher publisher) {
         try {
             dao.save(publisher);
         } catch (SQLException e) {
