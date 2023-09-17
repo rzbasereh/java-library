@@ -31,8 +31,9 @@ public class PublisherDao implements ObjectDao<Publisher> {
     @Override
     public Publisher get(Integer id) throws SQLException {
         Publisher publisher = null;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM publisher WHERE id = " + id);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM publisher WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 publisher = Publisher.builder()
                         .id(resultSet.getInt("id"))

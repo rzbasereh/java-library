@@ -35,8 +35,9 @@ public class BookDao implements ObjectDao<Book> {
     @Override
     public Book get(Integer id) throws SQLException {
         Book book = null;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM book WHERE id = " + id);
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM publisher WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 book = Book.builder()
                         .id(resultSet.getInt("id"))

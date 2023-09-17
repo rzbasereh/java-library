@@ -6,6 +6,7 @@ import org.basereh.domain.Author;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 // todo comment too code warning nadashte bashad
 @RequiredArgsConstructor
 public class AuthorDao implements ObjectDao<Author> {
@@ -32,8 +33,9 @@ public class AuthorDao implements ObjectDao<Author> {
     @Override
     public Author get(Integer id) throws SQLException {
         Author author = null;
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM author WHERE id = " + id);       // todo comment never do this! SQL Injection
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM author WHERE id=?")) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 author = Author.builder()
                         .id(resultSet.getInt("id"))
