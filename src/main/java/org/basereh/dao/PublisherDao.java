@@ -1,7 +1,6 @@
 package org.basereh.dao;
 
 import lombok.RequiredArgsConstructor;
-import org.basereh.domain.Author;
 import org.basereh.domain.Publisher;
 
 import java.sql.*;
@@ -71,13 +70,17 @@ public class PublisherDao implements ObjectDao<Publisher> {
 
     @Override
     public void update(Integer id, Publisher updatedPublisher) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE book SET name=? WHERE id=?")) {
-            preparedStatement.setString(1, updatedPublisher.getName());
-            preparedStatement.setInt(2, id);
-            int out = preparedStatement.executeUpdate();
-            if (out == 0) {
-                throw new SQLException();
+        if (get(id) != null) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE book SET name=? WHERE id=?")) {
+                preparedStatement.setString(1, updatedPublisher.getName());
+                preparedStatement.setInt(2, id);
+                int out = preparedStatement.executeUpdate();
+                if (out == 0) {
+                    throw new SQLException("Updating publisher failed, no ID obtained.");
+                }
             }
+        } else {
+            throw new SQLException("Updating publisher failed, no publisher exist.");
         }
     }
 
@@ -87,7 +90,7 @@ public class PublisherDao implements ObjectDao<Publisher> {
             preparedStatement.setInt(1, id);
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException();
+                throw new SQLException("Deleting publisher failed, no rows affected.");
             }
         }
     }

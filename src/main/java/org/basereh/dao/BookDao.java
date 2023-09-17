@@ -80,17 +80,21 @@ public class BookDao implements ObjectDao<Book> {
 
     @Override
     public void update(Integer id, Book updatedBook) throws SQLException {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "UPDATE book SET name=?, publisher_id=?,author_id=? WHERE id=?"
-        )) {
-            preparedStatement.setString(1, updatedBook.getName());
-            preparedStatement.setInt(2, updatedBook.getPublisher().getId());
-            preparedStatement.setInt(3, updatedBook.getAuthor().getId());
-            preparedStatement.setInt(4, id);
-            int out = preparedStatement.executeUpdate();
-            if (out == 0) {
-                throw new SQLException();
+        if (get(id) != null) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE book SET name=?, publisher_id=?,author_id=? WHERE id=?"
+            )) {
+                preparedStatement.setString(1, updatedBook.getName());
+                preparedStatement.setInt(2, updatedBook.getPublisher().getId());
+                preparedStatement.setInt(3, updatedBook.getAuthor().getId());
+                preparedStatement.setInt(4, id);
+                int out = preparedStatement.executeUpdate();
+                if (out == 0) {
+                    throw new SQLException("Updating book failed, no ID obtained.");
+                }
             }
+        } else {
+            throw new SQLException("Updating book failed, no book exist.");
         }
     }
 
@@ -100,7 +104,7 @@ public class BookDao implements ObjectDao<Book> {
             preparedStatement.setInt(1, id);
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException();
+                throw new SQLException("Deleting book failed, no rows affected.");
             }
         }
     }

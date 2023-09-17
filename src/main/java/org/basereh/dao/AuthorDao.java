@@ -74,18 +74,23 @@ public class AuthorDao implements ObjectDao<Author> {
     }
 
     @Override
-    public void update(Integer id, Author updatedAuthor) throws SQLException {      // todo comment validation
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "UPDATE author SET first_name=?, last_name=? WHERE id=?"
-        )) {
-            preparedStatement.setString(1, updatedAuthor.getFirstname());
-            preparedStatement.setString(2, updatedAuthor.getLastname());
-            preparedStatement.setInt(3, id);
-            int out = preparedStatement.executeUpdate();
-            if (out == 0) {
-                throw new SQLException();
+    public void update(Integer id, Author updatedAuthor) throws SQLException {
+        if (get(id) != null) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(
+                    "UPDATE author SET first_name=?, last_name=? WHERE id=?"
+            )) {
+                preparedStatement.setString(1, updatedAuthor.getFirstname());
+                preparedStatement.setString(2, updatedAuthor.getLastname());
+                preparedStatement.setInt(3, id);
+                int out = preparedStatement.executeUpdate();
+                if (out == 0) {
+                    throw new SQLException("Updating author failed, no rows affected.");
+                }
             }
+        } else {
+            throw new SQLException("Updating author failed, no author exist.");
         }
+
     }
 
     @Override
@@ -94,7 +99,7 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setInt(1, id);
             int out = preparedStatement.executeUpdate();
             if (out == 0) {
-                throw new SQLException();
+                throw new SQLException("Deleting author failed, no rows affected.");
             }
         }
     }
