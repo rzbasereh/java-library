@@ -6,7 +6,7 @@ import org.basereh.domain.Author;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+// todo comment too code warning nadashte bashad
 @RequiredArgsConstructor
 public class AuthorDao implements ObjectDao<Author> {
     private final Connection connection;
@@ -33,7 +33,7 @@ public class AuthorDao implements ObjectDao<Author> {
     public Author get(Integer id) throws SQLException {
         Author author = null;
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM author WHERE id = " + id);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM author WHERE id = " + id);       // todo comment never do this! SQL Injection
             if (resultSet.next()) {
                 author = Author.builder()
                         .id(resultSet.getInt("id"))
@@ -53,14 +53,14 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setString(1, author.getFirstname());
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
-            if (out == 0) {
+            if (out == 0) {     // todo comment chera?
                 throw new SQLException();
             }
         }
     }
 
     @Override
-    public void update(Integer id, Author updatedAuthor) throws SQLException {
+    public void update(Integer id, Author updatedAuthor) throws SQLException {      // todo comment validation
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "UPDATE author SET first_name=?, last_name=? WHERE id=?"
         )) {

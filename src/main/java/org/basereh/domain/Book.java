@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 public class Book {
     private Integer id;
-    public String name;
+    public String name;     // todo comment private
     public Publisher publisher;
     public  Author author;
 

@@ -12,7 +12,7 @@ import java.util.List;
 public class PublisherService {
     private final PublisherDao dao;
 
-    public List<Publisher> getAllPublishers() throws SQLException {
+    public List<Publisher> getAllPublishers() throws SQLException {     // todo comment SQLException
         return dao.getAll();
     }
 

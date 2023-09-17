@@ -20,7 +20,7 @@ public class AuthorService {
         return dao.get(id);
     }
 
-    public void createAuthor(Author author) throws LibraryException {
+    public void createAuthor(Author author) throws LibraryException {       // todo comment return object or id
         try {
             dao.save(author);
         } catch (SQLException e) {
