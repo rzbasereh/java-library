@@ -15,33 +15,32 @@ import java.util.Scanner;
 
 @RequiredArgsConstructor
 public class CLI {
+    private static final List<String> OPTIONS = Arrays.asList(
+            "Show all authors",
+            "Show all publishers",
+            "Show all books",
+            "Add new author",
+            "Add new publisher",
+            "Add new book",
+            "Get Single author",
+            "Get Single publishers",
+            "Get Single book",
+            "Delete an author",
+            "Delete a publishers",
+            "Delete a book",
+            "Update an author",
+            "Update a publishers",
+            "Update a book"
+    );
     private final Scanner scanner;
     private final AuthorService authorService;
     private final PublisherService publisherService;
     private final BookService bookService;
 
     public void mainLoop() {
-        List<String> options = Arrays.asList(       // todo comment private static final
-                "Show all authors",
-                "Show all publishers",
-                "Show all books",
-                "Add new author",
-                "Add new publisher",
-                "Add new book",
-                "Get Single author",
-                "Get Single publishers",
-                "Get Single book",
-                "Delete an author",
-                "Delete a publishers",
-                "Delete a book",
-                "Update an author",
-                "Update a publishers",
-                "Update a book"
-        );
-
         do {
             try {
-                switch (selectOption("Please select one of these options:", options)) {
+                switch (selectOption("Please select one of these options:", OPTIONS)) {
                     case 0 -> {
                         System.out.println(authorService.getAllAuthors());
                     }
@@ -130,19 +129,21 @@ public class CLI {
                 }
             } catch (LibraryException e) {
                 System.out.println(e.getMessage());
-            } catch (Exception ignored) {}      // todo comment chera?
+            } catch (Exception e) {
+                System.out.println("An unknown error has occurred!");
+            }
         } while (isContinue());
     }
 
-    private Publisher selectPublisher() throws SQLException, LibraryException {
+    private Publisher selectPublisher() throws SQLException {
         List<Publisher> publishers = publisherService.getAllPublishers();
         return publishers.get(selectOption(
                 "Select a publisher:",
-                publishers.stream().map(Publisher::toString).toList())      // todo comment id lozooman indexe mage?
+                publishers.stream().map(Publisher::toString).toList())
         );
     }
 
-    private Author selectAuthor() throws SQLException, LibraryException {
+    private Author selectAuthor() throws SQLException {
         List<Author> authors = authorService.getAllAuthors();
         return authors.get(selectOption(
                 "Select an author:",
@@ -150,7 +151,7 @@ public class CLI {
         );
     }
 
-    private Book selectBook() throws SQLException, LibraryException {
+    private Book selectBook() throws SQLException {
         List<Book> books = bookService.getAllBooks();
         return books.get(selectOption(
                 "Select a book:",
@@ -158,7 +159,7 @@ public class CLI {
         );
     }
 
-    private int selectOption(String title, List<String> options) throws LibraryException {
+    private int selectOption(String title, List<String> options) {
         System.out.println("\n" + title);
         for (int i = 0; i < options.size(); i++) {
             System.out.println("\t[" + (i + 1) + "] " + options.get(i));
@@ -182,7 +183,7 @@ public class CLI {
     }
 
     private boolean isContinue() {
-        System.out.print("\nAre you want to continue (Y/n): ");     // todo comment Do
+        System.out.print("\nDo you want to continue (Y/n): ");
         String res = scanner.next();
         return !res.equals("n");
     }

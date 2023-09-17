@@ -20,7 +20,7 @@ public class AuthorService {
         return dao.get(id);
     }
 
-    public void createAuthor(Author author) throws LibraryException {       // todo comment return object or id
+    public void createAuthor(Author author) {       // todo comment return object or id
         try {
             dao.save(author);
         } catch (SQLException e) {
@@ -28,7 +28,7 @@ public class AuthorService {
         }
     }
 
-    public void updateAuthor(Integer id, Author updatedAuthor) throws LibraryException {
+    public void updateAuthor(Integer id, Author updatedAuthor) {
         try {
             dao.update(id, updatedAuthor);
         } catch (SQLException e) {
@@ -36,7 +36,7 @@ public class AuthorService {
         }
     }
 
-    public void deleteAuthor(Integer id) throws LibraryException {
+    public void deleteAuthor(Integer id) {
         try {
             dao.delete(id);
         } catch (SQLException e) {

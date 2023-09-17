@@ -20,7 +20,7 @@ public class PublisherService {
         return dao.get(id);
     }
 
-    public void createPublisher(Publisher publisher) throws LibraryException {
+    public void createPublisher(Publisher publisher){
         try {
             dao.save(publisher);
         } catch (SQLException e) {
@@ -28,7 +28,7 @@ public class PublisherService {
         }
     }
 
-    public void updatePublisher(Integer id, Publisher updatedPublisher) throws LibraryException {
+    public void updatePublisher(Integer id, Publisher updatedPublisher) {
         try {
             dao.update(id, updatedPublisher);
         } catch (SQLException e) {
@@ -36,7 +36,7 @@ public class PublisherService {
         }
     }
 
-    public void deletePublisher(Integer id) throws LibraryException {
+    public void deletePublisher(Integer id) {
         try {
             dao.delete(id);
         } catch (SQLException e) {

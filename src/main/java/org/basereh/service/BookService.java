@@ -20,7 +20,7 @@ public class BookService {
         return dao.get(id);
     }
 
-    public void createBook(Book book) throws LibraryException {
+    public void createBook(Book book) {
         try {
             dao.save(book);
         } catch (SQLException e) {
@@ -28,7 +28,7 @@ public class BookService {
         }
     }
 
-    public void updateBook(Integer id, Book updatedBook) throws LibraryException {
+    public void updateBook(Integer id, Book updatedBook) {
         try {
             dao.update(id, updatedBook);
         } catch (SQLException e) {
@@ -36,7 +36,7 @@ public class BookService {
         }
     }
 
-    public void deleteBook(Integer id) throws LibraryException {
+    public void deleteBook(Integer id) {
         try {
             dao.delete(id);
         } catch (SQLException e) {
