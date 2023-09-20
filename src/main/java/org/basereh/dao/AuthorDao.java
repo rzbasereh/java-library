@@ -45,7 +45,7 @@ public class AuthorDao implements ObjectDao<Author> {
             preparedStatement.setString(1, author.getFirstname());
             preparedStatement.setString(2, author.getLastname());
             int out = preparedStatement.executeUpdate();
-            if (out == 0) {
+            if (out == 0) {     // todo comment mage momkene pish biad?
                 throw new SQLException("Creating author failed, no rows affected.");
             }
 
@@ -57,7 +57,7 @@ public class AuthorDao implements ObjectDao<Author> {
                             .lastname(author.getLastname())
                             .build();
                 } else {
-                    throw new SQLException("Creating author failed, no ID obtained.");
+                    throw new SQLException("Creating author failed, no ID obtained.");      // todo comment assertion?
                 }
             }
         }
@@ -65,7 +65,7 @@ public class AuthorDao implements ObjectDao<Author> {
 
     @Override
     public void update(Integer id, Author updatedAuthor) throws SQLException {
-        if (get(id) != null) {
+        if (get(id) != null) {      // todo comment sohbat
             try (PreparedStatement preparedStatement = connection.prepareStatement(
                     "UPDATE author SET first_name=?, last_name=? WHERE id=?"
             )) {

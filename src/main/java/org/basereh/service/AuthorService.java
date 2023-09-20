@@ -32,7 +32,7 @@ public class AuthorService {
         try {
             return dao.save(author);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage());     // todo comment sohbat
             throw new LibraryException("Create new author failed!");
         }
     }

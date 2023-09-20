@@ -130,12 +130,12 @@ public class CLI {
             } catch (LibraryException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("An unknown error has occurred!");
+                System.out.println("An unknown error has occurred!");       // todo comment
             }
         } while (isContinue());
     }
 
-    private Publisher selectPublisher() throws SQLException {
+    private Publisher selectPublisher() throws SQLException {           // todo comment warning
         List<Publisher> publishers = publisherService.getAllPublishers();
         return publishers.get(selectOption(
                 "Select a publisher:",

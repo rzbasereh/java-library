@@ -15,7 +15,7 @@ public class PublisherService {
     public List<Publisher> getAllPublishers() {
         try {
             return dao.getAll();
-        } catch (SQLException e) {
+        } catch (SQLException e) {      // todo comment sohbat
             throw new LibraryException("get all publishers failed!");
         }
     }
